@@ -11,5 +11,7 @@
 </script>
 
 <style>
+  @import url('assets/css/font.css');
+  @import url('assets/css/vuetify.min.css');
   /* CSS */
 </style>
