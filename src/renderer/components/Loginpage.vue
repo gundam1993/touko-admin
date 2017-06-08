@@ -32,8 +32,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import md5 from 'md5'
 export default {
   name: 'LoginPage',
   data () {
@@ -52,19 +50,24 @@ export default {
   methods: {
     login () {
       this.loading = true
-      axios.post('/admin/login', {
+      console.log(this.$ipcRenderer)
+      this.$ipcRenderer.send('login', {
         username: this.form.username,
-        password: md5(this.form.password)
+        password: this.form.password
       })
-        .then((res) => {
-          this.loading = false
-          if (res.data.success === 1) {
-            this.loginSuccess(res.data)
-          } else {
-            this.loginFail(res.data)
-          }
-        }
-      )
+      // this.$http.post('http://localhost:3000/admin/login', {
+      //   username: this.form.username,
+      //   password: md5(this.form.password)
+      // })
+      //   .then((res) => {
+      //     this.loading = false
+      //     if (res.data.success === 1) {
+      //       this.loginSuccess(res.data)
+      //     } else {
+      //       this.loginFail(res.data)
+      //     }
+      //   }
+      // )
     },
     loginSuccess (res) {
       this.$router.push('/admin')

@@ -1,7 +1,8 @@
 'use strict'
 
 import { app, BrowserWindow } from 'electron'
-
+// const { addIpcEventsHandler } = require('./ipcEventsHandler')
+import ipcEventsHandler from './ipcEventsHandler'
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -32,7 +33,10 @@ function createWindow () {
   })
 }
 
-app.on('ready', createWindow)
+app.on('ready', () => {
+  createWindow()
+  ipcEventsHandler.addIpcEventsHandler()
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
