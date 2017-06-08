@@ -8,7 +8,11 @@ const loginHandler = async (event, payload) => {
     username: payload.username,
     password: md5(payload.password)
   })
-  console.log(res)
+  if (res.data.success === 1) {
+    event.sender.send('login-success', res.data)
+  } else {
+    event.sender.send('login-fail', res.data)
+  }
 }
 
 export default {

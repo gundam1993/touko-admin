@@ -47,35 +47,27 @@ export default {
       timeout: 2000
     }
   },
+  created () {
+    this.$ipcRenderer.on('login-success', this.loginSuccess)
+    this.$ipcRenderer.on('login-fail', this.loginFail)
+  },
   methods: {
     login () {
       this.loading = true
-      console.log(this.$ipcRenderer)
       this.$ipcRenderer.send('login', {
         username: this.form.username,
         password: this.form.password
       })
-      // this.$http.post('http://localhost:3000/admin/login', {
-      //   username: this.form.username,
-      //   password: md5(this.form.password)
-      // })
-      //   .then((res) => {
-      //     this.loading = false
-      //     if (res.data.success === 1) {
-      //       this.loginSuccess(res.data)
-      //     } else {
-      //       this.loginFail(res.data)
-      //     }
-      //   }
-      // )
     },
-    loginSuccess (res) {
-      this.$router.push('/admin')
+    loginSuccess (event, res) {
+      // this.$router.push('/admin')
+      console.log(res)
     },
-    loginFail (data) {
-      this.loginMessage = data.desc
+    loginFail (event, res) {
+      this.loginMessage = res.desc
       this.form.password = ''
       this.alerts = true
+      this.loading = false
     },
     cleanForm () {
       this.form.username = ''
