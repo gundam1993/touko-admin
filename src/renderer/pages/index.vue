@@ -16,8 +16,8 @@
 </template>
 
 <script>
-  import sidebar from '@/components/Index/SideBar'
-  import toolbar from '@/components/Index/ToolBar'
+  import sidebar from '@/components/Index/Sidebar'
+  import toolbar from '@/components/Index/Toolbar'
   export default {
     name: 'MainPage',
     components: {
