@@ -4,7 +4,7 @@
     <tool-bar :sideIconCilck='toggleSidebar' :powerIconCilck="logout" :homeIconCilck="toHome"></tool-bar>
     <main class='main-container'>
       <v-container>
-        <nuxt />
+        <router-view></router-view>
         <v-snackbar :timeout="3000" :bottom="true" :right="true" 
                     v-model="$store.state.noticeDisplay" @input="noticeToggle">
           {{$store.state.noticeInfo}}
