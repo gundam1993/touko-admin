@@ -3,21 +3,17 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-// router.beforeEach((to, from, next) => {
-//   console.log(to)
-// })
-
 const router = new Router({
   routes: [
     {
       path: '/login',
       name: 'login-page',
-      component: require('@/components/LoginPage')
+      component: require('@/pages/LoginPage')
     },
     {
       path: '/',
       name: 'landing-page',
-      component: require('@/components/LandingPage')
+      component: require('@/pages/LandingPage')
     }
   ]
 })
