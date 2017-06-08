@@ -12,8 +12,8 @@ const router = new Router({
     },
     {
       path: '/',
-      name: 'landing-page',
-      component: require('@/pages/LandingPage')
+      name: 'index',
+      component: require('@/pages/Index')
     }
   ]
 })
