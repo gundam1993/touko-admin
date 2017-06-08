@@ -7,16 +7,30 @@ Vue.use(Router)
 //   console.log(to)
 // })
 
-export default new Router({
+const router = new Router({
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: 'login-page',
       component: require('@/components/LoginPage')
     },
     {
-      path: '*',
-      redirect: '/'
+      path: '/',
+      name: 'landing-page',
+      component: require('@/components/LandingPage')
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('touko-token')
+  if (token && to.name === 'login-page') {
+    next('/')
+  } else if (!token && to.name !== 'login-page') {
+    next('/login')
+  } else {
+    next()
+  }
+})
+
+export default router

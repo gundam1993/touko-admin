@@ -60,8 +60,8 @@ export default {
       })
     },
     loginSuccess (event, res) {
-      // this.$router.push('/admin')
-      console.log(res)
+      localStorage.setItem('touko-token', res.token)
+      this.$router.push('/')
     },
     loginFail (event, res) {
       this.loginMessage = res.desc
