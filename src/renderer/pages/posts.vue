@@ -141,6 +141,7 @@
     },
     created () {
       this.$ipcRenderer.on('update-posts', this.UpdatePosts)
+      this.$ipcRenderer.on('delete-success', this.removePost)
       this.getTableInfo(this.pageSize, 0, '')
     },
     methods: {
@@ -163,15 +164,16 @@
         return `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}`
       },
       deletePost () {
-        this.$http.get(`/api/admin/post/delete/${this.chosenId}`).then((res) => {
-          if (res.data.success) {
-            this.tableInfo.splice(this.chosenIndex, 1)
-            this.total --
-            this.modal = false
-            this.$store.commit('noticeChange', { msg: '删除成功' })
-            this.$store.commit('noticeOn')
-          }
-        })
+        this.$ipcRenderer.send('deletePosts', {chosenId: this.chosenId})
+      },
+      removePost (event, res) {
+        if (res.success) {
+          this.tableInfo.splice(this.chosenIndex, 1)
+          this.total --
+          this.modal = false
+            // this.$store.commit('noticeChange', { msg: '删除成功' })
+            // this.$store.commit('noticeOn')
+        }
       },
       moveToDraftBox (id, index) {
         this.$http.get(`/api/admin/post/move_to_draft/${id}`).then((res) => {

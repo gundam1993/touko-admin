@@ -26,7 +26,19 @@ const getPosts = async (event, payload) => {
   }
 }
 
+const deletePosts = async (event, payload) => {
+  let res = await axios({
+    method: 'get',
+    url: `${url}/api/admin/post/delete/${payload.chosenId}`,
+    headers: {'X-Token': global.sharedObject.userToken}
+  })
+  if (res.data.success === 1) {
+    event.sender.send('delete-success', res.data)
+  }
+}
+
 export default {
   login,
-  getPosts
+  getPosts,
+  deletePosts
 }
