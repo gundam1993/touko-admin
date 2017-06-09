@@ -16,9 +16,11 @@ const login = async (event, payload) => {
 }
 
 const getPosts = async (event, payload) => {
-  console.log(global.sharedObject)
-  let res = await axios.get(`${url}/api/admin/posts?pageSize=${payload.pageSize}&page=${payload.page}&search=${payload.search}`)
-  console.log(res.data)
+  let res = await axios({
+    method: 'get',
+    url: `${url}/api/admin/posts?pageSize=${payload.pageSize}&page=${payload.page}&search=${payload.search}`,
+    headers: {'X-Token': global.sharedObject.userToken}
+  })
   if (res.data.success === 1) {
     event.sender.send('update-posts', res.data)
   }

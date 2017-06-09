@@ -136,32 +136,25 @@
     },
     watch: {
       search (newVal, oldVal) {
-        // this.getTableInfo(this.pageSize, 0, newVal)
+        this.getTableInfo(this.pageSize, 0, newVal)
       }
     },
     created () {
       this.$ipcRenderer.on('update-posts', this.UpdatePosts)
-      // this.getTableInfo(this.pageSize, 0, '')
-      this.$ipcRenderer.send('getPosts', {
-        pageSize: this.pageSize,
-        page: 0,
-        search: '',
-        token: localStorage.getItem('touko-token')
-      })
+      this.getTableInfo(this.pageSize, 0, '')
     },
     methods: {
       getTableInfo (pageSize, page, search) {
-        this.$http.get(`/api/admin/posts?pageSize=${pageSize}&page=${page}&search=${search}`).then((res) => {
-          this.tableInfo = res.data.posts
-          this.total = res.data.total
-          this.ready = true
+        this.$ipcRenderer.send('getPosts', {
+          pageSize: pageSize,
+          page: page,
+          search: search
         })
       },
       UpdatePosts (event, res) {
-        console.log(res)
-        if (res.data.success) {
-          this.tableInfo = res.data.posts
-          this.total = res.data.total
+        if (res.success) {
+          this.tableInfo = res.posts
+          this.total = res.total
           this.ready = true
         }
       },
