@@ -128,7 +128,7 @@
       },
       paginationLength () {
         if (this.pageSize !== 'All') {
-          return parseInt(this.total / this.pageSize) + 1
+          return Math.ceil(this.total / this.pageSize)
         } else {
           return 1
         }
