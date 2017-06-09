@@ -52,7 +52,7 @@
         }, {
           title: '草稿箱',
           avatar: 'inbox',
-          route: '/admin/posts/draftbox'
+          route: '/draftbox'
         }]
       }, {
         title: '图片',

@@ -3,9 +3,9 @@
     <div id="table-block">
       <v-card class="paper-block">
         <v-card-title>
-          文章列表
+          草稿箱
           <v-spacer></v-spacer>
-          <v-text-field class='search'
+          <v-text-field
             append-icon="search"
             label="搜索"
             single-line
@@ -34,15 +34,15 @@
                     <v-icon>edit</v-icon>
                   </v-btn>
                   <v-btn
-                    @click.native="moveToDraftBox(item.id, index)"
-                    v-tooltip:bottom="{ html: '移至草稿箱' }" 
+                    @click.native="publish(item.id, index)"
+                    v-tooltip:bottom="{ html: '发布文章' }"
                     icon class="amber--text text--lighten-1"
                   >
-                    <v-icon>move_to_inbox</v-icon>
+                    <v-icon>publish</v-icon>
                   </v-btn>
                   <v-btn
                     @click.native="showDeleteDialog(item.id, index)"
-                    v-tooltip:bottom="{ html: '删除' }" 
+                    v-tooltip:bottom="{ html: '删除' }"
                     icon class="red--text text--lighten-2"
                   >
                     <v-icon>delete_forever</v-icon>
@@ -107,7 +107,7 @@
     name: 'PostListPage',
     layout: 'admin',
     head: () => ({
-      title: '文章列表'
+      title: '草稿箱'
     }),
     data: () => ({
       tableInfo: [],
@@ -128,7 +128,7 @@
       },
       paginationLength () {
         if (this.pageSize !== 'All') {
-          return Math.ceil(this.total / this.pageSize)
+          return parseInt(this.total / this.pageSize) + 1
         } else {
           return 1
         }
@@ -139,7 +139,7 @@
         this.getTableInfo(this.pageSize, 0, newVal)
       }
     },
-    created () {
+    created: function () {
       this.$ipcRenderer.on('update-posts', this.updatePosts)
       this.$ipcRenderer.on('delete-success', this.removePost)
       this.getTableInfo(this.pageSize, 0, '')
@@ -149,7 +149,8 @@
         this.$ipcRenderer.send('getPosts', {
           pageSize: pageSize,
           page: page,
-          search: search
+          search: search,
+          display: 'false'
         })
       },
       updatePosts (event, res) {
@@ -175,10 +176,10 @@
             // this.$store.commit('noticeOn')
         }
       },
-      moveToDraftBox (id, index) {
-        this.$http.get(`/api/admin/post/move_to_draft/${id}`).then((res) => {
+      publish (id, index) {
+        this.$http.get(`/api/admin/post/publish/${id}`).then((res) => {
           if (res.data.success) {
-            this.$store.commit('noticeChange', { msg: '移动成功' })
+            this.$store.commit('noticeChange', { msg: '发布成功' })
             this.$store.commit('noticeOn')
             this.tableInfo.splice(index, 1)
           }
@@ -208,8 +209,6 @@
     height: 100%;
 
     .paper-block {
-      width: 100%;
-      height: 100%;
       margin: auto;
     }
 
@@ -244,9 +243,6 @@
         }
       }
     }
-  }
-  .search {
-    margin: 0.3rem 0;
   }
   h2 {
     text-align: center;

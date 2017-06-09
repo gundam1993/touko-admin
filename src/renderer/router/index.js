@@ -19,6 +19,11 @@ const router = new Router({
           path: 'posts',
           name: 'post-list-page',
           component: require('@/pages/posts')
+        },
+        {
+          path: 'draftbox',
+          name: 'draft-box-page',
+          component: require('@/pages/draftbox')
         }
       ]
     }

@@ -18,7 +18,7 @@ const login = async (event, payload) => {
 const getPosts = async (event, payload) => {
   let res = await axios({
     method: 'get',
-    url: `${url}/api/admin/posts?pageSize=${payload.pageSize}&page=${payload.page}&search=${payload.search}`,
+    url: `${url}/api/admin/posts?display=${payload.display}&pageSize=${payload.pageSize}&page=${payload.page}&search=${payload.search}`,
     headers: {'X-Token': global.sharedObject.userToken}
   })
   if (res.data.success === 1) {
