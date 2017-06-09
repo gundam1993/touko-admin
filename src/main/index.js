@@ -11,6 +11,13 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static')
 }
 
+global.sharedObject = {
+  /**
+   * add global varb. to store user token
+   */
+  userToken: ''
+}
+
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`

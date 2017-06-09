@@ -61,6 +61,7 @@ export default {
     },
     loginSuccess (event, res) {
       localStorage.setItem('touko-token', res.token)
+      require('electron').remote.getGlobal('sharedObject').userToken = res.token
       this.$router.push('/')
     },
     loginFail (event, res) {

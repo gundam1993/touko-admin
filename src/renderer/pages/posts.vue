@@ -139,8 +139,15 @@
         // this.getTableInfo(this.pageSize, 0, newVal)
       }
     },
-    mounted: function () {
+    created () {
+      this.$ipcRenderer.on('update-posts', this.UpdatePosts)
       // this.getTableInfo(this.pageSize, 0, '')
+      this.$ipcRenderer.send('getPosts', {
+        pageSize: this.pageSize,
+        page: 0,
+        search: '',
+        token: localStorage.getItem('touko-token')
+      })
     },
     methods: {
       getTableInfo (pageSize, page, search) {
@@ -149,6 +156,14 @@
           this.total = res.data.total
           this.ready = true
         })
+      },
+      UpdatePosts (event, res) {
+        console.log(res)
+        if (res.data.success) {
+          this.tableInfo = res.data.posts
+          this.total = res.data.total
+          this.ready = true
+        }
       },
       dateTransform (date) {
         let newDate = new Date(date)

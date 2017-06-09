@@ -6,7 +6,13 @@
 
 <script>
   export default {
-    name: 'touko-admin'
+    name: 'touko-admin',
+    created () {
+      let token = localStorage.getItem('touko-token')
+      if (token) {
+        require('electron').remote.getGlobal('sharedObject').userToken = token
+      }
+    }
   }
 </script>
 
