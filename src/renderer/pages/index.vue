@@ -37,14 +37,14 @@
       sidebar_item: [{
         title: '首页',
         avatar: 'home',
-        route: '/admin'
+        route: '/'
       }, {
         title: '文章',
         avatar: 'description',
         items: [{
           title: '文章列表',
           avatar: 'list',
-          route: '/admin/posts'
+          route: '/posts'
         }, {
           title: '发表文章',
           avatar: 'add',

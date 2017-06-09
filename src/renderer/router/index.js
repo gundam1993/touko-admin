@@ -13,7 +13,14 @@ const router = new Router({
     {
       path: '/',
       name: 'index',
-      component: require('@/pages/Index')
+      component: require('@/pages/Index'),
+      children: [
+        {
+          path: 'posts',
+          name: 'post-list-page',
+          component: require('@/pages/posts')
+        }
+      ]
     }
   ]
 })
