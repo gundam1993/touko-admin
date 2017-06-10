@@ -142,6 +142,7 @@
     created: function () {
       this.$ipcRenderer.on('update-posts', this.updatePosts)
       this.$ipcRenderer.on('delete-success', this.removePost)
+      this.$ipcRenderer.on('move-success', this.removePost)
       this.getTableInfo(this.pageSize, 0, '')
     },
     methods: {
@@ -177,13 +178,16 @@
         }
       },
       publish (id, index) {
-        this.$http.get(`/api/admin/post/publish/${id}`).then((res) => {
-          if (res.data.success) {
-            this.$store.commit('noticeChange', { msg: '发布成功' })
-            this.$store.commit('noticeOn')
-            this.tableInfo.splice(index, 1)
-          }
-        })
+        this.chosenId = id
+        this.chosenIndex = index
+        this.$ipcRenderer.send('publishPost', {chosenId: id})
+        // this.$http.get(`/api/admin/post/publish/${id}`).then((res) => {
+        //   if (res.data.success) {
+        //     this.$store.commit('noticeChange', { msg: '发布成功' })
+        //     this.$store.commit('noticeOn')
+        //     this.tableInfo.splice(index, 1)
+        //   }
+        // })
       },
       showDeleteDialog (id, index) {
         event.cancelBubble = true

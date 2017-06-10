@@ -48,9 +48,21 @@ const moveToDraftbox = async (event, payload) => {
   }
 }
 
+const publishPost = async (event, payload) => {
+  let res = await axios({
+    method: 'get',
+    url: `${url}/api/admin/post/publish/${payload.chosenId}`,
+    headers: {'X-Token': global.sharedObject.userToken}
+  })
+  if (res.data.success === 1) {
+    event.sender.send('move-success', res.data)
+  }
+}
+
 export default {
   login,
   getPosts,
   deletePosts,
-  moveToDraftbox
+  moveToDraftbox,
+  publishPost
 }

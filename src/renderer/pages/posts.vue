@@ -168,6 +168,7 @@
         this.$ipcRenderer.send('deletePosts', {chosenId: this.chosenId})
       },
       removePost (event, res) {
+        console.log('post')
         if (res.success) {
           this.tableInfo.splice(this.chosenIndex, 1)
           this.total --
@@ -180,13 +181,6 @@
         this.chosenId = id
         this.chosenIndex = index
         this.$ipcRenderer.send('moveToDraftbox', {chosenId: id})
-        // this.$http.get(`/api/admin/post/move_to_draft/${id}`).then((res) => {
-        //   if (res.data.success) {
-        //     this.$store.commit('noticeChange', { msg: '移动成功' })
-        //     this.$store.commit('noticeOn')
-        //     this.tableInfo.splice(index, 1)
-        //   }
-        // })
       },
       showDeleteDialog (id, index) {
         event.cancelBubble = true

@@ -7,6 +7,7 @@ const addIpcEventsHandler = () => {
   ipcMain.on('getPosts', EventsHandler.getPosts)
   ipcMain.on('deletePosts', EventsHandler.deletePosts)
   ipcMain.on('moveToDraftbox', EventsHandler.moveToDraftbox)
+  ipcMain.on('publishPost', EventsHandler.publishPost)
 }
 
 export default {
