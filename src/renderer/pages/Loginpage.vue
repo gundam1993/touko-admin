@@ -47,24 +47,25 @@ export default {
       timeout: 2000
     }
   },
-  created () {
-    this.$ipcRenderer.on('login-success', this.loginSuccess)
-    this.$ipcRenderer.on('login-fail', this.loginFail)
-  },
   methods: {
     login () {
       this.loading = true
-      this.$ipcRenderer.send('login', {
+      let res = this.$ipcRenderer.sendSync('login', {
         username: this.form.username,
         password: this.form.password
       })
+      if (res.success === 1) {
+        this.loginSuccess(res)
+      } else {
+        this.loginFail(res)
+      }
     },
-    loginSuccess (event, res) {
+    loginSuccess (res) {
       localStorage.setItem('touko-token', res.token)
       require('electron').remote.getGlobal('sharedObject').userToken = res.token
       this.$router.push('/')
     },
-    loginFail (event, res) {
+    loginFail (res) {
       this.loginMessage = res.desc
       this.form.password = ''
       this.alerts = true

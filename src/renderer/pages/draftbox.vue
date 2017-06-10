@@ -140,21 +140,16 @@
       }
     },
     created: function () {
-      this.$ipcRenderer.on('update-posts', this.updatePosts)
-      this.$ipcRenderer.on('delete-success', this.removePost)
-      this.$ipcRenderer.on('move-success', this.removePost)
       this.getTableInfo(this.pageSize, 0, '')
     },
     methods: {
       getTableInfo (pageSize, page, search) {
-        this.$ipcRenderer.send('getPosts', {
+        let res = this.$ipcRenderer.sendSync('getPosts', {
           pageSize: pageSize,
           page: page,
           search: search,
           display: 'false'
         })
-      },
-      updatePosts (event, res) {
         if (res.success) {
           this.tableInfo = res.posts
           this.total = res.total
@@ -166,9 +161,10 @@
         return `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}`
       },
       deletePost () {
-        this.$ipcRenderer.send('deletePosts', {chosenId: this.chosenId})
+        let res = this.$ipcRenderer.sendSync('deletePosts', {chosenId: this.chosenId})
+        this.removePost(res)
       },
-      removePost (event, res) {
+      removePost (res) {
         if (res.success) {
           this.tableInfo.splice(this.chosenIndex, 1)
           this.total --
@@ -180,14 +176,8 @@
       publish (id, index) {
         this.chosenId = id
         this.chosenIndex = index
-        this.$ipcRenderer.send('publishPost', {chosenId: id})
-        // this.$http.get(`/api/admin/post/publish/${id}`).then((res) => {
-        //   if (res.data.success) {
-        //     this.$store.commit('noticeChange', { msg: '发布成功' })
-        //     this.$store.commit('noticeOn')
-        //     this.tableInfo.splice(index, 1)
-        //   }
-        // })
+        let res = this.$ipcRenderer.sendSync('publishPost', {chosenId: id})
+        this.removePost(res)
       },
       showDeleteDialog (id, index) {
         event.cancelBubble = true

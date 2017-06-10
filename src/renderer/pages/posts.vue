@@ -140,20 +140,18 @@
       }
     },
     created () {
-      this.$ipcRenderer.on('update-posts', this.updatePosts)
-      this.$ipcRenderer.on('delete-success', this.removePost)
-      this.$ipcRenderer.on('move-success', this.removePost)
       this.getTableInfo(this.pageSize, 0, '')
+    },
+    beforeDestroy () {
+
     },
     methods: {
       getTableInfo (pageSize, page, search) {
-        this.$ipcRenderer.send('getPosts', {
+        let res = this.$ipcRenderer.sendSync('getPosts', {
           pageSize: pageSize,
           page: page,
           search: search
         })
-      },
-      updatePosts (event, res) {
         if (res.success) {
           this.tableInfo = res.posts
           this.total = res.total
@@ -165,10 +163,10 @@
         return `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}`
       },
       deletePost () {
-        this.$ipcRenderer.send('deletePosts', {chosenId: this.chosenId})
+        let res = this.$ipcRenderer.sendSync('deletePosts', {chosenId: this.chosenId})
+        this.removePost(res)
       },
-      removePost (event, res) {
-        console.log('post')
+      removePost (res) {
         if (res.success) {
           this.tableInfo.splice(this.chosenIndex, 1)
           this.total --
@@ -180,7 +178,8 @@
       moveToDraftBox (id, index) {
         this.chosenId = id
         this.chosenIndex = index
-        this.$ipcRenderer.send('moveToDraftbox', {chosenId: id})
+        let res = this.$ipcRenderer.sendSync('moveToDraftbox', {chosenId: id})
+        this.removePost(res)
       },
       showDeleteDialog (id, index) {
         event.cancelBubble = true

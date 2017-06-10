@@ -8,11 +8,7 @@ const login = async (event, payload) => {
     username: payload.username,
     password: md5(payload.password)
   })
-  if (res.data.success === 1) {
-    event.sender.send('login-success', res.data)
-  } else {
-    event.sender.send('login-fail', res.data)
-  }
+  event.returnValue = res.data
 }
 
 const getPosts = async (event, payload) => {
@@ -21,9 +17,7 @@ const getPosts = async (event, payload) => {
     url: `${url}/api/admin/posts?display=${payload.display}&pageSize=${payload.pageSize}&page=${payload.page}&search=${payload.search}`,
     headers: {'X-Token': global.sharedObject.userToken}
   })
-  if (res.data.success === 1) {
-    event.sender.send('update-posts', res.data)
-  }
+  event.returnValue = res.data
 }
 
 const deletePosts = async (event, payload) => {
@@ -32,9 +26,7 @@ const deletePosts = async (event, payload) => {
     url: `${url}/api/admin/post/delete/${payload.chosenId}`,
     headers: {'X-Token': global.sharedObject.userToken}
   })
-  if (res.data.success === 1) {
-    event.sender.send('delete-success', res.data)
-  }
+  event.returnValue = res.data
 }
 
 const moveToDraftbox = async (event, payload) => {
@@ -43,9 +35,7 @@ const moveToDraftbox = async (event, payload) => {
     url: `${url}/api/admin/post/move_to_draft/${payload.chosenId}`,
     headers: {'X-Token': global.sharedObject.userToken}
   })
-  if (res.data.success === 1) {
-    event.sender.send('move-success', res.data)
-  }
+  event.returnValue = res.data
 }
 
 const publishPost = async (event, payload) => {
@@ -54,9 +44,7 @@ const publishPost = async (event, payload) => {
     url: `${url}/api/admin/post/publish/${payload.chosenId}`,
     headers: {'X-Token': global.sharedObject.userToken}
   })
-  if (res.data.success === 1) {
-    event.sender.send('move-success', res.data)
-  }
+  event.returnValue = res.data
 }
 
 export default {
