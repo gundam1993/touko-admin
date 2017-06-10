@@ -13,17 +13,22 @@ const router = new Router({
     {
       path: '/',
       name: 'index',
-      component: require('@/pages/Index'),
+      component: require('@/pages/IndexLayout'),
       children: [
         {
           path: 'posts',
           name: 'post-list-page',
-          component: require('@/pages/posts')
+          component: require('@/pages/PostListPage')
         },
         {
           path: 'draftbox',
           name: 'draft-box-page',
-          component: require('@/pages/draftbox')
+          component: require('@/pages/DraftboxPage')
+        },
+        {
+          path: 'post/:postId',
+          name: 'post-preview-page',
+          component: require('@/pages/PostPreviewPage')
         }
       ]
     }

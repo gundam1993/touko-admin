@@ -47,10 +47,20 @@ const publishPost = async (event, payload) => {
   event.returnValue = res.data
 }
 
+const getPostById = async (event, payload) => {
+  let res = await axios({
+    method: 'get',
+    url: `${url}/api/post/${payload.postId}`,
+    headers: {'X-Token': global.sharedObject.userToken}
+  })
+  event.returnValue = res.data
+}
+
 export default {
   login,
   getPosts,
   deletePosts,
   moveToDraftbox,
-  publishPost
+  publishPost,
+  getPostById
 }

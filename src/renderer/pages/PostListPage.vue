@@ -22,7 +22,7 @@
             </thead>
             <tbody>
               <tr v-for="(item, index) in tableInfo">
-                <td class="text-xs-center title" @click="$router.push(`/admin/post/${item.id}`)">{{ item.title }}</td>
+                <td class="text-xs-center title" @click="$router.push(`/post/${item.id}`)">{{ item.title }}</td>
                 <td class="text-xs-center">{{ dateTransform(item.createdAt) }}</td>
                 <td class="text-xs-center">{{ item.pv }}</td>
                 <td class="text-xs-right">
