@@ -142,6 +142,7 @@
     created () {
       this.$ipcRenderer.on('update-posts', this.updatePosts)
       this.$ipcRenderer.on('delete-success', this.removePost)
+      this.$ipcRenderer.on('move-success', this.removePost)
       this.getTableInfo(this.pageSize, 0, '')
     },
     methods: {
@@ -176,13 +177,16 @@
         }
       },
       moveToDraftBox (id, index) {
-        this.$http.get(`/api/admin/post/move_to_draft/${id}`).then((res) => {
-          if (res.data.success) {
-            this.$store.commit('noticeChange', { msg: '移动成功' })
-            this.$store.commit('noticeOn')
-            this.tableInfo.splice(index, 1)
-          }
-        })
+        this.chosenId = id
+        this.chosenIndex = index
+        this.$ipcRenderer.send('moveToDraftbox', {chosenId: id})
+        // this.$http.get(`/api/admin/post/move_to_draft/${id}`).then((res) => {
+        //   if (res.data.success) {
+        //     this.$store.commit('noticeChange', { msg: '移动成功' })
+        //     this.$store.commit('noticeOn')
+        //     this.tableInfo.splice(index, 1)
+        //   }
+        // })
       },
       showDeleteDialog (id, index) {
         event.cancelBubble = true
