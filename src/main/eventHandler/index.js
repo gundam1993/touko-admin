@@ -22,7 +22,7 @@ const login = async (event, payload) => {
   event.returnValue = res.data
 }
 
-const getPosts = async (event, payload) => {
+const getPostList = async (event, payload) => {
   let url = `/api/admin/posts?display=${payload.display}&pageSize=${payload.pageSize}&page=${payload.page}&search=${payload.search}`
   request(event, url, 'get')
 }
@@ -59,7 +59,7 @@ const submitPost = async (event, payload) => {
 
 export default {
   login,
-  getPosts,
+  getPostList,
   deletePosts,
   moveToDraftbox,
   publishPost,

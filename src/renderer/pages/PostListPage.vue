@@ -147,7 +147,7 @@
     },
     methods: {
       getTableInfo (pageSize, page, search) {
-        let res = this.$ipcRenderer.sendSync('getPosts', {
+        let res = this.$ipcRenderer.sendSync('getPostList', {
           pageSize: pageSize,
           page: page,
           search: search
