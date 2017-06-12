@@ -29,6 +29,11 @@ const router = new Router({
           path: 'post/:postId',
           name: 'post-preview-page',
           component: require('@/pages/PostPreviewPage')
+        },
+        {
+          path: 'new',
+          name: 'new-post-page',
+          component: require('@/pages/NewPostPage.vue')
         }
       ]
     }

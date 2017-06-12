@@ -48,7 +48,7 @@
         }, {
           title: '发表文章',
           avatar: 'add',
-          route: '/admin/posts/new'
+          route: '/new'
         }, {
           title: '草稿箱',
           avatar: 'inbox',
