@@ -20,8 +20,8 @@
       <v-divider />
       <v-card-row actions >
         <v-btn class="mr-3" default dark large @click.native="resetPost">重置</v-btn>
-        <v-btn class='mr-3 white--text'  warning dark large :disabled="post.title===''" @click.native="submitPost(false)">存草稿</v-btn>
-        <v-btn class="white--text" error dark large :disabled="post.title===''" @click.native="submitPost(true)">发布</v-btn>
+        <v-btn class='mr-3 white--text'  warning dark large :disabled="post.title===''" @click.native="submitEdit(false)">存草稿</v-btn>
+        <v-btn class='white--text' error dark large :disabled="post.title===''" @click.native="submitEdit(true)">修改</v-btn>
       </v-card-row>
     </v-card>
     <v-dialog v-model="alert">
@@ -38,17 +38,18 @@
 </template>
 
 <script>
-  import markdownEditor from '@/components/markdownEditor'
+  import markdownEditor from '~components/markdownEditor'
   export default {
-    name: 'NewPostPage',
+    name: 'editPostPage',
     layout: 'admin',
     head: () => ({
-      title: '发表文章'
+      title: '修改文章'
     }),
     data: () => ({
       post: {
         title: '',
         content: '',
+        id: '',
         display: true
       },
       msg: '',
@@ -60,6 +61,7 @@
       markdownEditor
     },
     created () {
+      this.getPost()
       this.getImgToken()
     },
     methods: {
@@ -74,22 +76,34 @@
         this.post.title = ''
         this.post.content = ''
       },
-      submitPost (display) {
-        this.post.display = display
-        let res = this.$ipcRenderer.sendSync('submitPost', this.post)
-        if (res.success) {
-          if (display) {
-            // this.$store.commit('noticeChange', { msg: '发布成功' })
-            // this.$store.commit('noticeOn')
-            this.$router.push('/posts')
-          } else {
-            // this.$store.commit('noticeChange', { msg: '保存成功' })
-            // this.$store.commit('noticeOn')
+      getPost () {
+        let id = this.$route.params.postId
+        this.$http.get(`/api/admin/post/${id}`).then((res) => {
+          if (res.data.success) {
+            this.post.title = res.data.post.title
+            this.post.content = res.data.post.content
+            this.post.id = res.data.post.id
+            this.post.display = res.data.post.display
           }
-        } else {
-          this.msg = res.msg
-          this.alert = true
-        }
+        })
+      },
+      submitEdit (display) {
+        this.post.display = display
+        this.$http.post(`/api/admin/post/${this.post.id}`, this.post).then((res) => {
+          if (res.data.success) {
+            if (display) {
+              this.$store.commit('noticeChange', { msg: '修改成功' })
+              this.$store.commit('noticeOn')
+              this.$router.push('/admin/posts')
+            } else {
+              this.$store.commit('noticeChange', { msg: '保存成功' })
+              this.$store.commit('noticeOn')
+            }
+          } else {
+            this.msg = res.data.msg
+            this.alert = true
+          }
+        })
       }
     }
   }

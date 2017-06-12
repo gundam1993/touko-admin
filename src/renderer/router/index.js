@@ -33,7 +33,12 @@ const router = new Router({
         {
           path: 'new',
           name: 'new-post-page',
-          component: require('@/pages/NewPostPage.vue')
+          component: require('@/pages/NewPostPage')
+        },
+        {
+          path: 'edit/:postId',
+          name: 'post-edit-page',
+          component: require('@/pages/PostEditPage')
         }
       ]
     }
