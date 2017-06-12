@@ -77,33 +77,30 @@
         this.post.content = ''
       },
       getPost () {
-        let id = this.$route.params.postId
-        this.$http.get(`/api/admin/post/${id}`).then((res) => {
-          if (res.data.success) {
-            this.post.title = res.data.post.title
-            this.post.content = res.data.post.content
-            this.post.id = res.data.post.id
-            this.post.display = res.data.post.display
-          }
-        })
+        let res = this.$ipcRenderer.sendSync('getPost', {postId: this.$route.params.postId})
+        if (res.success) {
+          this.post.title = res.post.title
+          this.post.content = res.post.content
+          this.post.id = res.post.id
+          this.post.display = res.post.display
+        }
       },
       submitEdit (display) {
         this.post.display = display
-        this.$http.post(`/api/admin/post/${this.post.id}`, this.post).then((res) => {
-          if (res.data.success) {
-            if (display) {
-              this.$store.commit('noticeChange', { msg: '修改成功' })
-              this.$store.commit('noticeOn')
-              this.$router.push('/admin/posts')
-            } else {
-              this.$store.commit('noticeChange', { msg: '保存成功' })
-              this.$store.commit('noticeOn')
-            }
+        let res = this.$ipcRenderer.sendSync('submitEdit', this.post)
+        if (res.success) {
+          if (display) {
+            // this.$store.commit('noticeChange', { msg: '修改成功' })
+            // this.$store.commit('noticeOn')
+            this.$router.push('/posts')
           } else {
-            this.msg = res.data.msg
-            this.alert = true
+            // this.$store.commit('noticeChange', { msg: '保存成功' })
+            // this.$store.commit('noticeOn')
           }
-        })
+        } else {
+          this.msg = res.msg
+          this.alert = true
+        }
       }
     }
   }

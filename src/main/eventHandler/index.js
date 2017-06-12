@@ -57,6 +57,16 @@ const submitPost = async (event, payload) => {
   request(event, url, 'post', payload)
 }
 
+const getPost = async (event, payload) => {
+  let url = `/api/admin/post/${payload.postId}`
+  request(event, url, 'get')
+}
+
+const submitEdit = async (event, payload) => {
+  let url = `/api/admin/post/${payload.id}`
+  request(event, url, 'post', payload)
+}
+
 export default {
   login,
   getPostList,
@@ -65,5 +75,7 @@ export default {
   publishPost,
   getPostById,
   getImgToken,
-  submitPost
+  submitPost,
+  getPost,
+  submitEdit
 }
