@@ -90,21 +90,6 @@
           this.msg = res.msg
           this.alert = true
         }
-        // this.$http.post('/api/admin/posts/new', this.post).then((res) => {
-        //   if (res.data.success) {
-        //     if (display) {
-        //       this.$store.commit('noticeChange', { msg: '发布成功' })
-        //       this.$store.commit('noticeOn')
-        //       this.$router.push('/admin/posts')
-        //     } else {
-        //       this.$store.commit('noticeChange', { msg: '保存成功' })
-        //       this.$store.commit('noticeOn')
-        //     }
-        //   } else {
-        //     this.msg = res.data.msg
-        //     this.alert = true
-        //   }
-        // })
       }
     }
   }
