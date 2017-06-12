@@ -10,7 +10,6 @@ const addIpcEventsHandler = () => {
   }
 }
 
-
 export default {
   addIpcEventsHandler
 }
