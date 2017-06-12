@@ -43,11 +43,6 @@
         if (res.success === 1) {
           this.post = res.post
         }
-        // this.$http.get(`/api/post/${id}`).then((res) => {
-        //   if (res.data.success) {
-        //     this.post = res.data.post
-        //   }
-        // })
       },
       dateTransform (date) {
         return moment(date).format('MMMM Do YYYY')

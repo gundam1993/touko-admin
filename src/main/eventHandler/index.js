@@ -4,11 +4,12 @@ import axios from 'axios'
 import md5 from 'md5'
 const host = 'http://localhost:3000'
 
-const request = async (event, url, method) => {
+const request = async (event, url, method, data = {}) => {
   let res = await axios({
     method: method,
     url: `${host}${url}`,
-    headers: {'X-Token': global.sharedObject.userToken}
+    headers: {'X-Token': global.sharedObject.userToken},
+    data: data
   })
   event.returnValue = res.data
 }
@@ -51,6 +52,11 @@ const getImgToken = async (event, payload) => {
   request(event, url, 'get')
 }
 
+const submitPost = async (event, payload) => {
+  let url = `/api/admin/posts/new`
+  request(event, url, 'post', payload)
+}
+
 export default {
   login,
   getPosts,
@@ -58,5 +64,6 @@ export default {
   moveToDraftbox,
   publishPost,
   getPostById,
-  getImgToken
+  getImgToken,
+  submitPost
 }

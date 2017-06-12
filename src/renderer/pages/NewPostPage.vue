@@ -60,21 +60,15 @@
       markdownEditor
     },
     mounted () {
-      // this.getImgToken()
+      this.getImgToken()
     },
     methods: {
       getImgToken () {
-        let res = this.$ipcRenderer.sendSync('getImageToken', {type: 'image'})
+        let res = this.$ipcRenderer.sendSync('getImgToken', {type: 'image'})
         if (res.success) {
           this.token = res.token
           this.policy = res.policy
         }
-        // this.$http.get('/api/admin/get_img_token/image').then((res) => {
-        //   if (res.data.success) {
-        //     this.token = res.data.token
-        //     this.policy = res.data.policy
-        //   }
-        // })
       },
       resetPost () {
         this.post.title = ''
@@ -82,21 +76,35 @@
       },
       submitPost (display) {
         this.post.display = display
-        this.$http.post('/api/admin/posts/new', this.post).then((res) => {
-          if (res.data.success) {
-            if (display) {
-              this.$store.commit('noticeChange', { msg: '发布成功' })
-              this.$store.commit('noticeOn')
-              this.$router.push('/admin/posts')
-            } else {
-              this.$store.commit('noticeChange', { msg: '保存成功' })
-              this.$store.commit('noticeOn')
-            }
+        let res = this.$ipcRenderer.sendSync('submitPost', this.post)
+        if (res.success) {
+          if (display) {
+            // this.$store.commit('noticeChange', { msg: '发布成功' })
+            // this.$store.commit('noticeOn')
+            this.$router.push('/posts')
           } else {
-            this.msg = res.data.msg
-            this.alert = true
+            // this.$store.commit('noticeChange', { msg: '保存成功' })
+            // this.$store.commit('noticeOn')
           }
-        })
+        } else {
+          this.msg = res.msg
+          this.alert = true
+        }
+        // this.$http.post('/api/admin/posts/new', this.post).then((res) => {
+        //   if (res.data.success) {
+        //     if (display) {
+        //       this.$store.commit('noticeChange', { msg: '发布成功' })
+        //       this.$store.commit('noticeOn')
+        //       this.$router.push('/admin/posts')
+        //     } else {
+        //       this.$store.commit('noticeChange', { msg: '保存成功' })
+        //       this.$store.commit('noticeOn')
+        //     }
+        //   } else {
+        //     this.msg = res.data.msg
+        //     this.alert = true
+        //   }
+        // })
       }
     }
   }
