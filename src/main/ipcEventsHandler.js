@@ -3,13 +3,13 @@
 import { ipcMain } from 'electron'
 import EventsHandler from './eventHandler'
 const addIpcEventsHandler = () => {
-  ipcMain.on('login', EventsHandler.login)
-  ipcMain.on('getPosts', EventsHandler.getPosts)
-  ipcMain.on('deletePosts', EventsHandler.deletePosts)
-  ipcMain.on('moveToDraftbox', EventsHandler.moveToDraftbox)
-  ipcMain.on('publishPost', EventsHandler.publishPost)
-  ipcMain.on('getPostById', EventsHandler.getPostById)
+  let keys = Object.keys(EventsHandler)
+  let len = keys.length
+  for (var i = 0; i < len; i++) {
+    ipcMain.on(keys[i], EventsHandler[keys[i]])
+  }
 }
+
 
 export default {
   addIpcEventsHandler
