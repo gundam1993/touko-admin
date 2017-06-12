@@ -38,7 +38,7 @@
 </template>
 
 <script>
-  import markdownEditor from '~components/markdownEditor'
+  import markdownEditor from '@/components/markdownEditor'
   export default {
     name: 'editPostPage',
     layout: 'admin',

@@ -27,7 +27,7 @@
                 <td class="text-xs-center">{{ item.pv }}</td>
                 <td class="text-xs-right">
                   <v-btn
-                    @click.native="$router.push(`/admin/post/${item.id}/edit`)"
+                    @click.native="$router.push(`/edit/${item.id}`)"
                     v-tooltip:bottom="{ html: '编辑' }"
                     icon class="blue--text text--darken-2"
                   >
