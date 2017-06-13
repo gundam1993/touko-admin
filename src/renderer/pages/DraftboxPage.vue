@@ -105,10 +105,6 @@
 <script>
   export default {
     name: 'PostListPage',
-    layout: 'admin',
-    head: () => ({
-      title: '草稿箱'
-    }),
     data: () => ({
       tableInfo: [],
       chosenId: '',

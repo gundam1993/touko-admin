@@ -41,10 +41,6 @@
   import markdownEditor from '@/components/markdownEditor'
   export default {
     name: 'NewPostPage',
-    layout: 'admin',
-    head: () => ({
-      title: '发表文章'
-    }),
     data: () => ({
       post: {
         title: '',

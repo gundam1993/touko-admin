@@ -24,14 +24,6 @@
       'side-bar': sidebar,
       'tool-bar': toolbar
     },
-    head: () => ({
-      title: '管理后台',
-      link: [
-        { hid: 'font-style', rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' },
-        { hid: 'vuetify', rel: 'stylesheet', href: 'https://unpkg.com/vuetify@0.12.2/dist/vuetify.min.css' },
-        { hid: 'admin', rel: 'stylesheet', href: '/admin.css' }
-      ]
-    }),
     data: () => ({
       sidebar_display: true,
       sidebar_item: [{
