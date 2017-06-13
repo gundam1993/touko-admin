@@ -56,7 +56,7 @@
         }, {
           title: '文章插图管理',
           avatar: 'picture_in_picture',
-          route: '/admin/post_picture'
+          route: '/post-image'
         }]
       }, {
         title: '评论',

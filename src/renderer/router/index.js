@@ -49,6 +49,11 @@ const router = new Router({
           path: 'photography',
           name: 'photography-page',
           component: require('@/pages/Photography')
+        },
+        {
+          path: 'post-image',
+          name: 'post-image-page',
+          component: require('@/pages/PostImagePage')
         }
       ]
     }

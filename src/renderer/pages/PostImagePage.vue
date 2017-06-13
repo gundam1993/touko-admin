@@ -1,17 +1,14 @@
 <template>
-  <div id="photography" class="masonry">
+  <div id="post_picture" class="masonry">
     <v-card class="title-block item">
       <v-card-title>
-        相册管理
+        插图管理
         <v-subheader v-text="`已用空间: ${(this.usage / 1024 / 1024).toFixed(3)}M`"></v-subheader>
-        <v-btn class="blue--text text--lighten-2" icon @click.native.stop="showUploadDia()">
-          <v-icon>cloud_upload</v-icon>
-        </v-btn>
       </v-card-title>
     </v-card>
     <v-card class="item"v-for="(file, index) in fileList" :key="index">
       <v-card-row class="title-picture">
-        <img :src="`http://touko-blog-photo.b0.upaiyun.com/${file.name}!preview`" alt="">
+        <img :src="`http://touko-blog-img.b0.upaiyun.com/${file.name}!preview`" alt="">
         <div class="img-mark">
           <div class="img-info">
             <div class="img-name title">{{file.name}}</div>
@@ -43,59 +40,45 @@
           </v-card-row>
         </v-card>
     </v-dialog>
-    <v-dialog v-model="preview" width="" id="preview-dialog">
-      <div class="preview-block">
-        <img v-if="preview" id="preview-img" :src="`http://touko-blog-photo.b0.upaiyun.com/${fileList[chosenIndex].name}`" alt="">
-      </div>
+    <v-dialog v-model="preview" width="">
+        <v-card>
+          <v-card-row class='preview-block'>
+            <img v-if="preview" :src="`http://touko-blog-img.b0.upaiyun.com/${fileList[chosenIndex].name}`" alt="">
+          </v-card-row>
+        </v-card>
     </v-dialog>
-    <uploadDialog :display="upload" 
-                  :token="token" 
-                  :policy="policy" 
-                  imgUploadUrl="http://v0.api.upyun.com/touko-blog-photo" 
-                  @displayOff="upload = false"></uploadDialog>
   </div>
 </template>
 
 <script>
-  import uploadDialog from '@/components/Photography/UploadDialog'
   export default {
-    name: 'Photography',
+    name: 'PostPic',
+    layout: 'admin',
+    head: () => ({
+      title: '插图管理'
+    }),
     data: () => ({
       modal: false,
       usage: 0,
       fileList: [],
       chosenIndex: 0,
-      preview: false,
-      upload: false,
-      token: '',
-      policy: ''
+      preview: false
     }),
-    components: {
-      uploadDialog
-    },
-    created () {
+    mounted: function () {
       this.getImgUsage()
       this.getImgInfo()
-      this.getPhotoToken()
     },
     methods: {
       getImgUsage () {
-        let res = this.$ipcRenderer.sendSync('getImgUsage', {type: 'photo'})
+        let res = this.$ipcRenderer.sendSync('getImgUsage', {type: 'image'})
         if (res.success) {
           this.usage = res.usage
         }
       },
       getImgInfo () {
-        let res = this.$ipcRenderer.sendSync('getImgInfo', {type: 'photo'})
+        let res = this.$ipcRenderer.sendSync('getImgInfo', {type: 'image'})
         if (res.success) {
           this.fileList = res.fileList
-        }
-      },
-      getPhotoToken () {
-        let res = this.$ipcRenderer.sendSync('getImgToken', {type: 'photo'})
-        if (res.success) {
-          this.token = res.token
-          this.policy = res.policy
         }
       },
       getFormatDate (sec) {
@@ -110,12 +93,9 @@
         this.chosenIndex = index
         this.modal = true
       },
-      showUploadDia () {
-        this.upload = true
-      },
       deleteImg () {
         let image = this.fileList[this.chosenIndex].name
-        let res = this.$ipcRenderer.sendSync('deleteImg', {type: 'photo', image: image})
+        let res = this.$ipcRenderer.sendSync('deleteImg', {type: 'image', image: image})
         if (res.success) {
           this.fileList.splice(this.chosenIndex, 1)
           this.modal = false
@@ -132,7 +112,7 @@
 </script>
 
 <style lang='scss' scoped>
-  #photography {
+  #post_picture {
     height: 100%;
   }
   .masonry {
@@ -182,20 +162,12 @@
         padding: 0 1rem;
       }
     }
-  }
-  
-  #preview-dialog {
-    .dialog__content {
-      .dialog {
+
+    .preview-block {
+      img {
+        width: 100%;
+        vertical-align: bottom;
       }
     }
   }
-  .preview-block {
-    height: 100%;
-  }
-  #preview-img {
-    height: 100%;
-    vertical-align: bottom;
-  }
-  
 </style>

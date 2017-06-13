@@ -2,6 +2,7 @@
 
 import { ipcMain } from 'electron'
 import EventsHandler from './eventHandler'
+
 const addIpcEventsHandler = () => {
   let keys = Object.keys(EventsHandler)
   let len = keys.length
