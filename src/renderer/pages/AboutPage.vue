@@ -36,10 +36,6 @@
   import markdownEditor from '@/components/markdownEditor'
   export default {
     name: 'editAboutPage',
-    layout: 'admin',
-    head: () => ({
-      title: '编辑关于页面'
-    }),
     data: () => ({
       about: {
         content: ''
@@ -52,7 +48,7 @@
     components: {
       markdownEditor
     },
-    mounted () {
+    created () {
       this.getAboutInfo()
       this.getImgToken()
     },

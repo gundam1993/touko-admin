@@ -60,10 +60,6 @@
   import uploadDialog from '@/components/Photography/UploadDialog'
   export default {
     name: 'Photography',
-    layout: 'admin',
-    head: () => ({
-      title: '相册管理'
-    }),
     data: () => ({
       modal: false,
       usage: 0,
@@ -77,18 +73,22 @@
     components: {
       uploadDialog
     },
-    mounted: function () {
+    created: function () {
       this.getImgUsage()
-      this.getImgInfo()
+      // this.getImgInfo()
       this.getPhotoToken()
     },
     methods: {
       getImgUsage () {
-        this.$http.get('/api/photo/spaceUsage/photo').then((res) => {
-          if (res.data.success) {
-            this.usage = res.data.usage
-          }
-        })
+        // this.$http.get('/api/photo/spaceUsage/photo').then((res) => {
+        //   if (res.data.success) {
+        //     this.usage = res.data.usage
+        //   }
+        // })
+        let res = this.$ipcRenderer.sendSync('getImgUsage', {type: 'photo'})
+        if (res.success) {
+          this.usage = res.usage
+        }
       },
       getImgInfo () {
         this.$http.get('/api/photo/list/photo').then((res) => {
@@ -98,12 +98,11 @@
         })
       },
       getPhotoToken () {
-        this.$http.get('/api/admin/get_img_token/photo').then((res) => {
-          if (res.data.success) {
-            this.token = res.data.token
-            this.policy = res.data.policy
-          }
-        })
+        let res = this.$ipcRenderer.sendSync('getImgToken', {type: 'photo'})
+        if (res.success) {
+          this.token = res.token
+          this.policy = res.policy
+        }
       },
       getFormatDate (sec) {
         let date = new Date(Date(sec))

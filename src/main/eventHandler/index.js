@@ -77,6 +77,11 @@ const submitAbout = async (event, payload) => {
   request(event, url, 'post', payload)
 }
 
+const getImgUsage = async (event, payload) => {
+  let url = `/api/photo/spaceUsage/${payload.type}`
+  request(event, url, 'get')
+}
+
 export default {
   login,
   getPostList,
@@ -89,5 +94,6 @@ export default {
   getPost,
   submitEdit,
   getAbout,
-  submitAbout
+  submitAbout,
+  getImgUsage
 }
