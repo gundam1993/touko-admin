@@ -73,29 +73,28 @@
     components: {
       uploadDialog
     },
-    created: function () {
+    created () {
       this.getImgUsage()
-      // this.getImgInfo()
+      this.getImgInfo()
       this.getPhotoToken()
     },
     methods: {
       getImgUsage () {
-        // this.$http.get('/api/photo/spaceUsage/photo').then((res) => {
-        //   if (res.data.success) {
-        //     this.usage = res.data.usage
-        //   }
-        // })
         let res = this.$ipcRenderer.sendSync('getImgUsage', {type: 'photo'})
         if (res.success) {
           this.usage = res.usage
         }
       },
       getImgInfo () {
-        this.$http.get('/api/photo/list/photo').then((res) => {
-          if (res.data.success) {
-            this.fileList = res.data.fileList
-          }
-        })
+        let res = this.$ipcRenderer.sendSync('getImgInfo', {type: 'photo'})
+        if (res.success) {
+          this.fileList = res.fileList
+        }
+        // this.$http.get('/api/photo/list/photo').then((res) => {
+        //   if (res.data.success) {
+        //     this.fileList = res.data.fileList
+        //   }
+        // })
       },
       getPhotoToken () {
         let res = this.$ipcRenderer.sendSync('getImgToken', {type: 'photo'})

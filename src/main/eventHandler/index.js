@@ -82,6 +82,11 @@ const getImgUsage = async (event, payload) => {
   request(event, url, 'get')
 }
 
+const getImgInfo = async (event, payload) => {
+  let url = `/api/photo/list/${payload.type}`
+  request(event, url, 'get')
+}
+
 export default {
   login,
   getPostList,
@@ -95,5 +100,6 @@ export default {
   submitEdit,
   getAbout,
   submitAbout,
-  getImgUsage
+  getImgUsage,
+  getImgInfo
 }
