@@ -60,7 +60,7 @@
         items: [{
           title: '相册管理',
           avatar: 'photo_album',
-          route: '/admin/photography'
+          route: '/photography'
         }, {
           title: '文章插图管理',
           avatar: 'picture_in_picture',
