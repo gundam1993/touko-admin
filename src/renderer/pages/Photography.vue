@@ -90,11 +90,6 @@
         if (res.success) {
           this.fileList = res.fileList
         }
-        // this.$http.get('/api/photo/list/photo').then((res) => {
-        //   if (res.data.success) {
-        //     this.fileList = res.data.fileList
-        //   }
-        // })
       },
       getPhotoToken () {
         let res = this.$ipcRenderer.sendSync('getImgToken', {type: 'photo'})
@@ -120,18 +115,29 @@
       },
       deleteImg () {
         let image = this.fileList[this.chosenIndex].name
-        this.$http.get(`/api/photo/delete/photo/${image}`).then((res) => {
-          if (res.data.success) {
-            this.fileList.splice(this.chosenIndex, 1)
-            this.modal = false
-            this.getImgUsage()
-            this.$store.commit('noticeChange', { msg: '删除成功' })
-            this.$store.commit('noticeOn')
-          } else {
-            this.$store.commit('noticeChange', { msg: '删除失败' })
-            this.$store.commit('noticeOn')
-          }
-        })
+        let res = this.$ipcRenderer.sendSync('deleteImg', {type: 'photo', image: image})
+        if (res.success) {
+          this.fileList.splice(this.chosenIndex, 1)
+          this.modal = false
+          this.getImgUsage()
+          // this.$store.commit('noticeChange', { msg: '删除成功' })
+          // this.$store.commit('noticeOn')
+        } else {
+          // this.$store.commit('noticeChange', { msg: '删除失败' })
+          // this.$store.commit('noticeOn')
+        }
+        // this.$http.get(`/api/photo/delete/photo/${image}`).then((res) => {
+        //   if (res.data.success) {
+        //     this.fileList.splice(this.chosenIndex, 1)
+        //     this.modal = false
+        //     this.getImgUsage()
+        //     this.$store.commit('noticeChange', { msg: '删除成功' })
+        //     this.$store.commit('noticeOn')
+        //   } else {
+        //     this.$store.commit('noticeChange', { msg: '删除失败' })
+        //     this.$store.commit('noticeOn')
+        //   }
+        // })
       }
     }
   }

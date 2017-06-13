@@ -87,6 +87,11 @@ const getImgInfo = async (event, payload) => {
   request(event, url, 'get')
 }
 
+const deleteImg = async (event, payload) => {
+  let url = `/api/photo/delete/${payload.type}/${payload.image}`
+  request(event, url, 'get')
+}
+
 export default {
   login,
   getPostList,
@@ -101,5 +106,6 @@ export default {
   getAbout,
   submitAbout,
   getImgUsage,
-  getImgInfo
+  getImgInfo,
+  deleteImg
 }
