@@ -39,6 +39,11 @@ const router = new Router({
           path: 'edit/:postId',
           name: 'post-edit-page',
           component: require('@/pages/PostEditPage')
+        },
+        {
+          path: 'about',
+          name: 'about-page',
+          component: require('@/pages/AboutPage')
         }
       ]
     }

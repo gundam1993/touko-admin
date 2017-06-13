@@ -73,8 +73,9 @@
       }, {
         title: '编辑关于页面',
         avatar: 'face',
-        route: '/admin/about'
-      }, {
+        route: '/about'
+      },
+      {
         title: '设置',
         avatar: 'settings',
         route: '/admin'
