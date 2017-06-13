@@ -72,6 +72,11 @@ const getAbout = async (event) => {
   request(event, url, 'get')
 }
 
+const submitAbout = async (event, payload) => {
+  let url = `/api/admin/about`
+  request(event, url, 'post', payload)
+}
+
 export default {
   login,
   getPostList,
@@ -83,5 +88,6 @@ export default {
   submitPost,
   getPost,
   submitEdit,
-  getAbout
+  getAbout,
+  submitAbout
 }

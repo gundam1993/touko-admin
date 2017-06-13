@@ -68,26 +68,21 @@
         this.about.content = ''
       },
       getAboutInfo () {
-        // this.$http.get(`/api/about`).then((res) => {
-        //   if (res.data.success) {
-        //     this.about = {content: res.data.content}
-        //   }
-        // })
         let res = this.$ipcRenderer.sendSync('getAbout')
         if (res.success) {
           this.about = {content: res.content}
         }
       },
       submitAbout () {
-        this.$http.post(`/api/admin/about`, this.about).then((res) => {
-          if (res.data.success) {
-            this.$store.commit('noticeChange', { msg: '保存成功' })
-            this.$store.commit('noticeOn')
-          } else {
-            this.msg = res.data.msg
-            this.alert = true
-          }
-        })
+        let res = this.$ipcRenderer.sendSync('submitAbout', this.about)
+        if (res.success) {
+          // this.$store.commit('noticeChange', { msg: '保存成功' })
+          // this.$store.commit('noticeOn')
+          console.log('success')
+        } else {
+          this.msg = res.msg
+          this.alert = true
+        }
       }
     }
   }
