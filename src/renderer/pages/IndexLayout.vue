@@ -83,12 +83,9 @@
         }
       },
       logout () {
-        this.$http.get('/admin/logout').then((res) => {
-          if (res.data.success) {
-            localStorage.removeItem('touko-blog-token')
-            this.$router.push('/admin/login')
-          }
-        })
+        localStorage.removeItem('touko-token')
+        require('electron').remote.getGlobal('sharedObject').userToken = ''
+        this.$router.push('/login')
       },
       toHome () {
         this.$router.push('/')
