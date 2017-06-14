@@ -3,6 +3,7 @@
 import { app, BrowserWindow } from 'electron'
 // const { addIpcEventsHandler } = require('./ipcEventsHandler')
 import ipcEventsHandler from './ipcEventsHandler'
+import menuBuilder from './menu'
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -43,6 +44,7 @@ function createWindow () {
 app.on('ready', () => {
   createWindow()
   ipcEventsHandler.addIpcEventsHandler()
+  menuBuilder()
 })
 
 app.on('window-all-closed', () => {
