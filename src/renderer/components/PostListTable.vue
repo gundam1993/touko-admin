@@ -6,7 +6,14 @@
       </tr> 
     </thead>
     <tbody>
-      <slot v-for="(item, index) in displayInfo" name="line" :item="item"></slot>
+      <tr v-for="(item, index) in displayInfo">
+        <td class="text-xs-center title" @click="$router.push(`/post/${item.id}`)">{{ item.title }}</td>
+        <td class="text-xs-center">{{ dateTransform(item.createdAt) }}</td>
+        <td class="text-xs-center">{{ item.pv }}</td>
+        <td class="text-xs-right">
+          <slot name="line" :item="item"></slot>
+        </td>
+      </tr>
       <tr v-if="search === '' && info.length === 0">
         <td  class="text-xs-center" colspan="100%">暂无文章</td>
       </tr>
