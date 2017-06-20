@@ -8,7 +8,7 @@
     </v-card>
     <v-card class="item"v-for="(file, index) in fileList" :key="index">
       <v-card-row class="title-picture">
-        <img :src="`http://touko-blog-img.b0.upaiyun.com/${file.name}!preview`" alt="">
+        <img :src="`https://touko-blog-img.b0.upaiyun.com/${file.name}!preview`" alt="">
         <div class="img-mark">
           <div class="img-info">
             <div class="img-name title">{{file.name}}</div>
@@ -43,7 +43,7 @@
     <v-dialog v-model="preview" width="">
         <v-card>
           <v-card-row class='preview-block'>
-            <img v-if="preview" :src="`http://touko-blog-img.b0.upaiyun.com/${fileList[chosenIndex].name}`" alt="">
+            <img v-if="preview" :src="`https://touko-blog-img.b0.upaiyun.com/${fileList[chosenIndex].name}`" alt="">
           </v-card-row>
         </v-card>
     </v-dialog>

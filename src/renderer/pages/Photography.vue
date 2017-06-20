@@ -11,7 +11,7 @@
     </v-card>
     <v-card class="item"v-for="(file, index) in fileList" :key="index">
       <v-card-row class="title-picture">
-        <img :src="`http://touko-blog-photo.b0.upaiyun.com/${file.name}!preview`" alt="">
+        <img :src="`https://touko-blog-photo.b0.upaiyun.com/${file.name}!preview`" alt="">
         <div class="img-mark">
           <div class="img-info">
             <div class="img-name title">{{file.name}}</div>
@@ -45,7 +45,7 @@
     </v-dialog>
     <v-dialog v-model="preview" width="" id="preview-dialog">
       <div class="preview-block">
-        <img v-if="preview" id="preview-img" :src="`http://touko-blog-photo.b0.upaiyun.com/${fileList[chosenIndex].name}`" alt="">
+        <img v-if="preview" id="preview-img" :src="`https://touko-blog-photo.b0.upaiyun.com/${fileList[chosenIndex].name}`" alt="">
       </div>
     </v-dialog>
     <uploadDialog :display="upload" 

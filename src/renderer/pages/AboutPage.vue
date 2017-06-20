@@ -11,7 +11,7 @@
           :token="token"
           :policy="policy"
           imgUploadUrl="http://v0.api.upyun.com/touko-blog-img"
-          imgBaseUrl="http://touko-blog-img.b0.upaiyun.com/"></markdownEditor>
+          imgBaseUrl="https://touko-blog-img.b0.upaiyun.com"></markdownEditor>
       </v-card-text>
       <v-divider />
       <v-card-row actions >
