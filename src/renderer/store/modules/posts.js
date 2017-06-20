@@ -7,6 +7,9 @@ const state = {
 const getters = {
   publishedPost: state => {
     return state.posts.filter(post => post.display)
+  },
+  unpublishedPost: state => {
+    return state.posts.filter(post => !post.display)
   }
 }
 

@@ -136,7 +136,8 @@
       }
     },
     created: function () {
-      this.getTableInfo(this.pageSize, 0, '')
+      this.tableInfo = this.$store.getters.unpublishedPost
+      this.total = this.tableInfo.length
     },
     methods: {
       getTableInfo (pageSize, page, search) {

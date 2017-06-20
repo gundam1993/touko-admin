@@ -14,7 +14,8 @@
           ></v-text-field>
         </v-card-title>
         <v-card-row>
-          <table class="datatable table">
+         <PostListTable :info='tableInfo'></PostListTable>
+          <!-- <table class="datatable table">
             <thead style="border-bottom: 1px solid #e0e0e0">
               <tr>
                 <th class='column sortable text-xs-center' v-for="item in headers">{{item.text}}</th>
@@ -83,7 +84,7 @@
                 </td>
               </tr>
             </tfoot>
-          </table>
+          </table> -->
         </v-card-row>
       </v-card>
       <v-dialog v-model="modal" title="Alert Dialog">
@@ -103,6 +104,7 @@
 </template>
 
 <script>
+  import PostListTable from '@/components/PostListTable'
   export default {
     name: 'PostListPage',
     data: () => ({
@@ -114,7 +116,6 @@
       page: 0,
       pageSize: 10,
       pageSizeList: [5, 10, 15, 20, 25, 30, 'All'],
-      headers: [{text: '标题'}, {text: '日期'}, {text: '阅读'}, {text: '操作'}],
       search: '',
       ready: false
     }),
@@ -134,6 +135,9 @@
       search (newVal, oldVal) {
         this.getTableInfo(this.pageSize, 0, newVal)
       }
+    },
+    components: {
+      PostListTable
     },
     created () {
       // this.getTableInfo(this.pageSize, 0, '')
@@ -215,28 +219,6 @@
         height: 550px;
         width: 100%;
         text-align: center;
-      }
-
-      .datatable.table {
-        tbody tr td.title {
-          width: 50%;
-          cursor: pointer;
-
-          a {
-            color: rgba(0,0,0,.87);
-            text-decoration: none;
-          }
-          
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-      }
-      .pagination {
-        float: right;
-        .pagination__item--active {
-          background-color: #e57373 !important;
-        }
       }
     }
   }
