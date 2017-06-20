@@ -6,34 +6,7 @@
       </tr> 
     </thead>
     <tbody>
-      <tr v-for="(item, index) in displayInfo">
-        <td class="text-xs-center title" @click="$router.push(`/post/${item.id}`)">{{ item.title }}</td>
-        <td class="text-xs-center">{{ dateTransform(item.createdAt) }}</td>
-        <td class="text-xs-center">{{ item.pv }}</td>
-        <td class="text-xs-right">
-          <v-btn
-            @click.native="$router.push(`/edit/${item.id}`)"
-            v-tooltip:bottom="{ html: '编辑' }"
-            icon class="blue--text text--darken-2"
-          >
-            <v-icon>edit</v-icon>
-          </v-btn>
-          <v-btn
-            @click.native="moveToDraftBox(item.id, index)"
-            v-tooltip:bottom="{ html: '移至草稿箱' }" 
-            icon class="amber--text text--lighten-1"
-          >
-            <v-icon>move_to_inbox</v-icon>
-          </v-btn>
-          <v-btn
-            @click.native="showDeleteDialog(item.id, index)"
-            v-tooltip:bottom="{ html: '删除' }" 
-            icon class="red--text text--lighten-2"
-          >
-            <v-icon>delete_forever</v-icon>
-          </v-btn>
-        </td>
-      </tr>
+      <slot v-for="(item, index) in displayInfo" name="line" :item="item"></slot>
       <tr v-if="search === '' && info.length === 0">
         <td  class="text-xs-center" colspan="100%">暂无文章</td>
       </tr>
