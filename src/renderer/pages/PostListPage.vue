@@ -136,7 +136,9 @@
       }
     },
     created () {
-      this.getTableInfo(this.pageSize, 0, '')
+      // this.getTableInfo(this.pageSize, 0, '')
+      this.tableInfo = this.$store.getters.publishedPost
+      this.total = this.tableInfo.length
     },
     beforeDestroy () {
 

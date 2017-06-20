@@ -73,6 +73,9 @@
         route: '/admin'
       }]
     }),
+    created () {
+      this.$store.dispatch('updateAllPosts')
+    },
     methods: {
       toggleSidebar () {
         this.sidebar_display = !this.sidebar_display

@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 import md5 from 'md5'
-const host = 'https://tommyh.io'
+const host = 'http://localhost:3000'
 
 const request = async (event, url, method, data = {}) => {
   let res = await axios({

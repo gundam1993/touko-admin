@@ -1,5 +1,5 @@
 const state = {
-  main: 0
+  posts: []
 }
 
 const mutations = {
