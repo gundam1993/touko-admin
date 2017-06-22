@@ -74,7 +74,7 @@
       }]
     }),
     created () {
-      this.$store.dispatch('updateAllPosts')
+      this.$store.dispatch('updateAllPosts', '')
     },
     methods: {
       toggleSidebar () {

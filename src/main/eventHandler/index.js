@@ -23,22 +23,22 @@ const login = async (event, payload) => {
 }
 
 const getPostList = async (event, payload) => {
-  let url = `/api/admin/posts?display=${payload.display}&pageSize=${payload.pageSize}&page=${payload.page}&search=${payload.search}`
+  let url = `/api/admin/posts?search=${payload.search}`
   request(event, url, 'get')
 }
 
-const deletePosts = async (event, payload) => {
-  let url = `/api/admin/post/delete/${payload.chosenId}`
+const deletePost = async (event, payload) => {
+  let url = `/api/admin/post/delete/${payload.id}`
   request(event, url, 'get')
 }
 
 const moveToDraftbox = async (event, payload) => {
-  let url = `/api/admin/post/move_to_draft/${payload.chosenId}`
+  let url = `/api/admin/post/move_to_draft/${payload.id}`
   request(event, url, 'get')
 }
 
 const publishPost = async (event, payload) => {
-  let url = `/api/admin/post/publish/${payload.chosenId}`
+  let url = `/api/admin/post/publish/${payload.id}`
   request(event, url, 'get')
 }
 
@@ -95,7 +95,7 @@ const deleteImg = async (event, payload) => {
 export default {
   login,
   getPostList,
-  deletePosts,
+  deletePost,
   moveToDraftbox,
   publishPost,
   getPostById,

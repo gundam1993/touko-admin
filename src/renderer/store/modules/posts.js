@@ -21,13 +21,28 @@ const mutations = {
     state.posts.push(payload.post)
   },
   DELETE_POST (state, payload) {
-    state.posts.splice(payload.index, 1)
+    for (let i = 0; i < state.posts.length; i++) {
+      if (state.posts[i].id === payload.id) {
+        state.posts.splice(i, 1)
+        return
+      }
+    }
   },
   MOVE_TO_DRAFTBOX (state, payload) {
-    state.posts[payload.index].display = false
+    for (let i = 0; i < state.posts.length; i++) {
+      if (state.posts[i].id === payload.id) {
+        state.posts[i].display = false
+        return
+      }
+    }
   },
   PUBLISH_POST (state, payload) {
-    state.posts[payload.index].display = true
+    for (let i = 0; i < state.posts.length; i++) {
+      if (state.posts[i].id === payload.id) {
+        state.posts[i].display = true
+        return
+      }
+    }
   },
   EDIT_POST (state, payload) {
     state.posts[payload.index] = payload.post
@@ -35,14 +50,28 @@ const mutations = {
 }
 
 const actions = {
-  updateAllPosts ({ commit }) {
-    let res = ipcRenderer.sendSync('getPostList', {
-      pageSize: 10,
-      page: 0,
-      search: ''
-    })
+  updateAllPosts ({ commit }, payload) {
+    let res = ipcRenderer.sendSync('getPostList', { search: payload })
     if (res.success) {
       commit('UPDATE_ALL_POSTS', {posts: res.posts})
+    }
+  },
+  moveToDraftbox ({ commit }, payload) {
+    let res = ipcRenderer.sendSync('moveToDraftbox', payload)
+    if (res.success) {
+      commit('MOVE_TO_DRAFTBOX', payload)
+    }
+  },
+  publishPost ({ commit }, payload) {
+    let res = ipcRenderer.sendSync('publishPost', payload)
+    if (res.success) {
+      commit('PUBLISH_POST', payload)
+    }
+  },
+  deletePost ({ commit }, payload) {
+    let res = ipcRenderer.sendSync('deletePost', payload)
+    if (res.success) {
+      commit('DELETE_POST', payload)
     }
   }
 }

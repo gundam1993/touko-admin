@@ -11,7 +11,7 @@
         <td class="text-xs-center">{{ dateTransform(item.createdAt) }}</td>
         <td class="text-xs-center">{{ item.pv }}</td>
         <td class="text-xs-right">
-          <slot name="buttons" :item="item"></slot>
+          <slot name="buttons" :item="item" :index="index"></slot>
         </td>
       </tr>
       <tr v-if="search === '' && info.length === 0">

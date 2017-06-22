@@ -24,14 +24,14 @@
               <v-icon>edit</v-icon>
             </v-btn>
             <v-btn
-              @click.native="moveToDraftBox(props.item.id, index)"
+              @click.native="moveToDraftBox(props.item.id)"
               v-tooltip:bottom="{ html: '移至草稿箱' }" 
               icon class="amber--text text--lighten-1"
             >
               <v-icon>move_to_inbox</v-icon>
             </v-btn>
             <v-btn
-              @click.native="showDeleteDialog(props.item.id, index)"
+              @click.native="showDeleteDialog(props.item.id)"
               v-tooltip:bottom="{ html: '删除' }" 
               icon class="red--text text--lighten-2"
             >
@@ -62,60 +62,34 @@
   export default {
     name: 'PostListPage',
     data: () => ({
-      tableInfo: [],
       chosenId: '',
-      chosenIndex: 0,
       modal: false,
-      search: '',
-      ready: false
+      search: ''
     }),
     watch: {
       search (newVal, oldVal) {
-        this.getTableInfo(this.pageSize, 0, newVal)
+        this.$store.dispatch('updateAllPosts', newVal)
+      }
+    },
+    computed: {
+      tableInfo () {
+        return this.$store.getters.publishedPost
       }
     },
     components: {
       PostListTable
     },
-    created () {
-      this.tableInfo = this.$store.getters.publishedPost
-    },
     methods: {
-      getTableInfo (pageSize, page, search) {
-        let res = this.$ipcRenderer.sendSync('getPostList', {
-          pageSize: pageSize,
-          page: page,
-          search: search
-        })
-        if (res.success) {
-          this.tableInfo = res.posts
-          this.total = res.total
-          this.ready = true
-        }
-      },
       deletePost () {
-        let res = this.$ipcRenderer.sendSync('deletePosts', {chosenId: this.chosenId})
-        this.removePost(res)
+        this.$store.dispatch('deletePost', {id: this.chosenId})
+        this.modal = false
       },
-      removePost (res) {
-        if (res.success) {
-          this.tableInfo.splice(this.chosenIndex, 1)
-          this.total --
-          this.modal = false
-            // this.$store.commit('noticeChange', { msg: '删除成功' })
-            // this.$store.commit('noticeOn')
-        }
+      moveToDraftBox (id) {
+        this.$store.dispatch('moveToDraftbox', {id: id})
       },
-      moveToDraftBox (id, index) {
-        this.chosenId = id
-        this.chosenIndex = index
-        let res = this.$ipcRenderer.sendSync('moveToDraftbox', {chosenId: id})
-        this.removePost(res)
-      },
-      showDeleteDialog (id, index) {
+      showDeleteDialog (id) {
         event.cancelBubble = true
         this.chosenId = id
-        this.chosenIndex = index
         this.modal = true
       }
     }
