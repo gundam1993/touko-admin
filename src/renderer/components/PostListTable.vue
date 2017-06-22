@@ -11,7 +11,7 @@
         <td class="text-xs-center">{{ dateTransform(item.createdAt) }}</td>
         <td class="text-xs-center">{{ item.pv }}</td>
         <td class="text-xs-right">
-          <slot name="line" :item="item"></slot>
+          <slot name="buttons" :item="item"></slot>
         </td>
       </tr>
       <tr v-if="search === '' && info.length === 0">
@@ -33,7 +33,7 @@
                   <i class="material-icons icon input-group__append-icon">arrow_drop_down</i>
                 </div>
                 <v-list>
-                  <v-list-item v-for="item in pageSizeList" :key="item" @click="pageSizeChange(item, item.id, index)">
+                  <v-list-item v-for="item in pageSizeList" :key="item" @click="pageSizeChange(item)">
                     <v-list-tile>
                       <v-list-tile-title>{{ item }}</v-list-tile-title>
                     </v-list-tile>

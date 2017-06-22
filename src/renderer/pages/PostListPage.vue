@@ -15,7 +15,7 @@
         </v-card-title>
         <v-card-row>
          <PostListTable :info='tableInfo'>
-          <template slot="line" scope="props">
+          <template slot="buttons" scope="props">
             <v-btn
               @click.native="$router.push(`/edit/${props.item.id}`)"
               v-tooltip:bottom="{ html: '编辑' }"
@@ -66,25 +66,9 @@
       chosenId: '',
       chosenIndex: 0,
       modal: false,
-      total: 0,
-      page: 0,
-      pageSize: 10,
-      pageSizeList: [5, 10, 15, 20, 25, 30, 'All'],
       search: '',
       ready: false
     }),
-    computed: {
-      paginationPage () {
-        return this.page + 1
-      },
-      paginationLength () {
-        if (this.pageSize !== 'All') {
-          return Math.ceil(this.total / this.pageSize)
-        } else {
-          return 1
-        }
-      }
-    },
     watch: {
       search (newVal, oldVal) {
         this.getTableInfo(this.pageSize, 0, newVal)
@@ -94,12 +78,7 @@
       PostListTable
     },
     created () {
-      // this.getTableInfo(this.pageSize, 0, '')
       this.tableInfo = this.$store.getters.publishedPost
-      this.total = this.tableInfo.length
-    },
-    beforeDestroy () {
-
     },
     methods: {
       getTableInfo (pageSize, page, search) {
@@ -113,10 +92,6 @@
           this.total = res.total
           this.ready = true
         }
-      },
-      dateTransform (date) {
-        let newDate = new Date(date)
-        return `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}`
       },
       deletePost () {
         let res = this.$ipcRenderer.sendSync('deletePosts', {chosenId: this.chosenId})
@@ -142,15 +117,6 @@
         this.chosenId = id
         this.chosenIndex = index
         this.modal = true
-      },
-      pageSizeChange (item) {
-        this.pageSize = item
-        this.page = 0
-        this.getTableInfo(this.pageSize, this.page, this.search)
-      },
-      pageChange (event) {
-        this.page = event - 1
-        this.getTableInfo(this.pageSize, event - 1, this.search)
       }
     }
   }
