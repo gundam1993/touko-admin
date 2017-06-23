@@ -42,22 +42,20 @@
   export default {
     name: 'editPostPage',
     data: () => ({
-      post: {
-        title: '',
-        content: '',
-        id: '',
-        display: true
-      },
       msg: '',
       alert: false,
       token: '',
       policy: ''
     }),
+    computed: {
+      post () {
+        return this.$store.getters.getPostById(this.$route.params.postId)
+      }
+    },
     components: {
       markdownEditor
     },
     created () {
-      this.getPost()
       this.getImgToken()
     },
     methods: {
@@ -71,15 +69,6 @@
       resetPost () {
         this.post.title = ''
         this.post.content = ''
-      },
-      getPost () {
-        let res = this.$ipcRenderer.sendSync('getPost', {postId: this.$route.params.postId})
-        if (res.success) {
-          this.post.title = res.post.title
-          this.post.content = res.post.content
-          this.post.id = res.post.id
-          this.post.display = res.post.display
-        }
       },
       submitEdit (display) {
         this.post.display = display

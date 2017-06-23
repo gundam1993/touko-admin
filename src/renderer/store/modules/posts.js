@@ -10,6 +10,11 @@ const getters = {
   },
   unpublishedPost: state => {
     return state.posts.filter(post => !post.display)
+  },
+  getPostById: state => {
+    return (id) => (
+      state.posts.filter(post => post.id === parseInt(id))[0]
+    )
   }
 }
 
@@ -18,7 +23,7 @@ const mutations = {
     state.posts = payload.posts
   },
   ADD_NEW_POST (state, payload) {
-    state.posts.push(payload.post)
+    state.posts.push(payload)
   },
   DELETE_POST (state, payload) {
     for (let i = 0; i < state.posts.length; i++) {
@@ -72,6 +77,14 @@ const actions = {
     let res = ipcRenderer.sendSync('deletePost', payload)
     if (res.success) {
       commit('DELETE_POST', payload)
+    }
+  },
+  addNewPost ({ commit }, payload) {
+    let res = ipcRenderer.sendSync('submitPost', payload)
+    console.log(res)
+    if (res.success) {
+      commit('ADD_NEW_POST', res.post)
+      return true
     }
   }
 }

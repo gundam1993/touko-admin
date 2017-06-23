@@ -26,24 +26,12 @@
     components: {
       PostDisplayer
     },
-    data: () => ({
-      post: {
-        title: '',
-        content: '',
-        createdAt: ''
+    computed: {
+      post () {
+        return this.$store.getters.getPostById(this.$route.params.postId)
       }
-    }),
-    created () {
-      this.getPost()
     },
     methods: {
-      getPost () {
-        let id = this.$route.params.postId
-        let res = this.$ipcRenderer.sendSync('getPostById', {postId: id})
-        if (res.success === 1) {
-          this.post = res.post
-        }
-      },
       dateTransform (date) {
         return moment(date).format('MMMM Do YYYY')
       }
