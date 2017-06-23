@@ -74,24 +74,17 @@
         this.post.display = display
         let res = this.$store.dispatch('addNewPost', this.post)
         if (res) {
-          this.$router.push('/posts')
+          if (display) {
+            // this.$store.commit('noticeChange', { msg: '发布成功' })
+            // this.$store.commit('noticeOn')
+            this.$router.push('/posts')
+          } else {
+            // this.$store.commit('noticeChange', { msg: '保存成功' })
+            // this.$store.commit('noticeOn')
+          }
         } else {
           console.log('error')
         }
-        // let res = this.$ipcRenderer.sendSync('submitPost', this.post)
-        // if (res.success) {
-        //   if (display) {
-        //     // this.$store.commit('noticeChange', { msg: '发布成功' })
-        //     // this.$store.commit('noticeOn')
-        //     this.$router.push('/posts')
-        //   } else {
-        //     // this.$store.commit('noticeChange', { msg: '保存成功' })
-        //     // this.$store.commit('noticeOn')
-        //   }
-        // } else {
-        //   this.msg = res.msg
-        //   this.alert = true
-        // }
       }
     }
   }

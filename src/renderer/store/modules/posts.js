@@ -81,7 +81,6 @@ const actions = {
   },
   addNewPost ({ commit }, payload) {
     let res = ipcRenderer.sendSync('submitPost', payload)
-    console.log(res)
     if (res.success) {
       commit('ADD_NEW_POST', res.post)
       return true
