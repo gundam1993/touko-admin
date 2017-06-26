@@ -42,7 +42,6 @@
   export default {
     name: 'editPostPage',
     data: () => ({
-      // post: {},
       msg: '',
       alert: false,
       token: '',
@@ -60,7 +59,6 @@
       markdownEditor
     },
     created () {
-      // this.post = Object.assign({}, this.postRaw)
       this.getImgToken()
     },
     methods: {

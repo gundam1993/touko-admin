@@ -37,19 +37,20 @@
   export default {
     name: 'editAboutPage',
     data: () => ({
-      about: {
-        content: ''
-      },
       msg: '',
       alert: false,
       token: '',
       policy: ''
     }),
+    computed: {
+      about () {
+        return Object.assign({}, this.$store.getters.aboutInfo)
+      }
+    },
     components: {
       markdownEditor
     },
     created () {
-      this.getAboutInfo()
       this.getImgToken()
     },
     methods: {
@@ -63,18 +64,12 @@
       resetPost () {
         this.about.content = ''
       },
-      getAboutInfo () {
-        let res = this.$ipcRenderer.sendSync('getAbout')
-        if (res.success) {
-          this.about = {content: res.content}
-        }
-      },
       submitAbout () {
-        let res = this.$ipcRenderer.sendSync('submitAbout', this.about)
-        if (res.success) {
+        // let res = this.$ipcRenderer.sendSync('submitAbout', this.about)
+        let res = this.$store.dispatch('editAboutInfo', this.about)
+        if (res) {
           // this.$store.commit('noticeChange', { msg: '保存成功' })
           // this.$store.commit('noticeOn')
-          console.log('success')
         } else {
           this.msg = res.msg
           this.alert = true

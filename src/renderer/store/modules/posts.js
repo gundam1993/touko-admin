@@ -95,7 +95,6 @@ const actions = {
   },
   editPost ({ commit }, payload) {
     let res = ipcRenderer.sendSync('submitEdit', payload)
-    console.log(res)
     if (res.success) {
       commit('EDIT_POST', payload)
       return true

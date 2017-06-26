@@ -75,6 +75,7 @@
     }),
     created () {
       this.$store.dispatch('updateAllPosts', '')
+      this.$store.dispatch('updateAboutInfo')
     },
     methods: {
       toggleSidebar () {
