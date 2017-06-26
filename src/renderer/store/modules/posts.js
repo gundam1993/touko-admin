@@ -50,7 +50,14 @@ const mutations = {
     }
   },
   EDIT_POST (state, payload) {
-    state.posts[payload.index] = payload.post
+    for (let i = 0; i < state.posts.length; i++) {
+      if (state.posts[i].id === payload.id) {
+        state.posts[i].title = payload.title
+        state.posts[i].content = payload.content
+        state.posts[i].display = payload.display
+        return
+      }
+    }
   }
 }
 
@@ -83,6 +90,14 @@ const actions = {
     let res = ipcRenderer.sendSync('submitPost', payload)
     if (res.success) {
       commit('ADD_NEW_POST', res.post)
+      return true
+    }
+  },
+  editPost ({ commit }, payload) {
+    let res = ipcRenderer.sendSync('submitEdit', payload)
+    console.log(res)
+    if (res.success) {
+      commit('EDIT_POST', payload)
       return true
     }
   }

@@ -42,20 +42,25 @@
   export default {
     name: 'editPostPage',
     data: () => ({
+      // post: {},
       msg: '',
       alert: false,
       token: '',
       policy: ''
     }),
     computed: {
-      post () {
+      postRaw () {
         return this.$store.getters.getPostById(this.$route.params.postId)
+      },
+      post () {
+        return Object.assign({}, this.postRaw)
       }
     },
     components: {
       markdownEditor
     },
     created () {
+      // this.post = Object.assign({}, this.postRaw)
       this.getImgToken()
     },
     methods: {
@@ -72,10 +77,10 @@
       },
       submitEdit (display) {
         this.post.display = display
-        let res = this.$ipcRenderer.sendSync('submitEdit', this.post)
-        if (res.success) {
+        let res = this.$store.dispatch('editPost', this.post)
+        if (res) {
           if (display) {
-            // this.$store.commit('noticeChange', { msg: '修改成功' })
+            // this.$store.commit('noticeChange', { msg: '发布成功' })
             // this.$store.commit('noticeOn')
             this.$router.push('/posts')
           } else {
@@ -83,8 +88,7 @@
             // this.$store.commit('noticeOn')
           }
         } else {
-          this.msg = res.msg
-          this.alert = true
+          console.log('error')
         }
       }
     }
