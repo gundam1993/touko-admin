@@ -76,6 +76,8 @@
     created () {
       this.$store.dispatch('updateAllPosts', '')
       this.$store.dispatch('updateAboutInfo')
+      this.$store.dispatch('getImages')
+      this.$store.dispatch('getImageUsage')
     },
     methods: {
       toggleSidebar () {

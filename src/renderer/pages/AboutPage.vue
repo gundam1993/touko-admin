@@ -65,7 +65,6 @@
         this.about.content = ''
       },
       submitAbout () {
-        // let res = this.$ipcRenderer.sendSync('submitAbout', this.about)
         let res = this.$store.dispatch('editAboutInfo', this.about)
         if (res) {
           // this.$store.commit('noticeChange', { msg: '保存成功' })

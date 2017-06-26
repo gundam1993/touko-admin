@@ -59,28 +59,18 @@
     }),
     data: () => ({
       modal: false,
-      usage: 0,
-      fileList: [],
       chosenIndex: 0,
       preview: false
     }),
-    mounted: function () {
-      this.getImgUsage()
-      this.getImgInfo()
+    computed: {
+      usage () {
+        return this.$store.getters.imgUsage
+      },
+      fileList () {
+        return this.$store.getters.images
+      }
     },
     methods: {
-      getImgUsage () {
-        let res = this.$ipcRenderer.sendSync('getImgUsage', {type: 'image'})
-        if (res.success) {
-          this.usage = res.usage
-        }
-      },
-      getImgInfo () {
-        let res = this.$ipcRenderer.sendSync('getImgInfo', {type: 'image'})
-        if (res.success) {
-          this.fileList = res.fileList
-        }
-      },
       getFormatDate (sec) {
         let date = new Date(Date(sec))
         return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
@@ -95,11 +85,10 @@
       },
       deleteImg () {
         let image = this.fileList[this.chosenIndex].name
-        let res = this.$ipcRenderer.sendSync('deleteImg', {type: 'image', image: image})
-        if (res.success) {
-          this.fileList.splice(this.chosenIndex, 1)
+        let res = this.$store.dispatch('deleteImage', {index: this.chosenIndex, name: image})
+        if (res) {
+          this.$store.dispatch('getImageUsage')
           this.modal = false
-          this.getImgUsage()
           // this.$store.commit('noticeChange', { msg: '删除成功' })
           // this.$store.commit('noticeOn')
         } else {

@@ -17,7 +17,7 @@ const mutations = {
 }
 
 const actions = {
-  updateAboutInfo ({ commit }, payload) {
+  updateAboutInfo ({ commit }) {
     let res = ipcRenderer.sendSync('getAbout')
     if (res.success) {
       commit('UPDATE_ABOUT_INFO', {content: res.content})
