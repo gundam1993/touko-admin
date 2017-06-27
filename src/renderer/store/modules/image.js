@@ -2,12 +2,7 @@ const {ipcRenderer} = require('electron')
 
 const state = {
   images: [],
-  usage: 0,
-  option: {
-    token: '',
-    policy: '',
-    date: ''
-  }
+  usage: 0
 }
 
 const getters = {
@@ -16,10 +11,6 @@ const getters = {
 }
 
 const mutations = {
-  UPDATE_IMAGE_TOKEN_AND_POLICY (state, payload) {
-    state.imageToken = payload.token
-    state.imagepolicy = payload.policy
-  },
   GET_IMAGES (state, payload) {
     state.images = payload
   },
@@ -30,7 +21,7 @@ const mutations = {
     state.images.splice(payload, 1)
   },
   ADD_IMAGE (state, payload) {
-    state.images = payload
+    state.images.unshift(payload)
   }
 }
 
@@ -53,14 +44,10 @@ const actions = {
       commit('DELETE_IMAGE', payload.index)
       return true
     }
-  },
-  getImageTokenAndPolicy ({ commit }, payload) {
-    let res = ipcRenderer.sendSync('getImgToken', {type: 'image'})
-    if (res.success) {
-      commit('UPDATE_IMAGE_TOKEN_AND_POLICY', res)
-      return true
-    }
   }
+  // addImage({ commit }, payload) {
+    // let
+  // }
 }
 
 export default {

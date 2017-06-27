@@ -131,6 +131,7 @@
         this.$http.post(this.imgUploadUrl, fd).then((res) => {
           if (res.data.code === 200) {
             this.pasteImg(res.data.url)
+            this.$store.dispatch('addImage', res.data)
           }
         })
       },

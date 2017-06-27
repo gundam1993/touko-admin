@@ -43,11 +43,6 @@
           </v-card-row>
         </v-card>
     </v-dialog>
-    <v-dialog v-model="preview" width="" id="preview-dialog">
-      <div class="preview-block">
-        <img v-if="preview" id="preview-img" :src="`https://touko-blog-photo.b0.upaiyun.com/${fileList[chosenIndex].name}`" alt="">
-      </div>
-    </v-dialog>
     <uploadDialog :display="upload" 
                   :token="token" 
                   :policy="policy" 
@@ -58,6 +53,7 @@
 
 <script>
   import uploadDialog from '@/components/Photography/UploadDialog'
+  const {BrowserWindow} = require('electron').remote
   export default {
     name: 'Photography',
     data: () => ({
@@ -65,7 +61,6 @@
       usage: 0,
       fileList: [],
       chosenIndex: 0,
-      preview: false,
       upload: false,
       token: '',
       policy: ''
@@ -103,8 +98,11 @@
         return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
       },
       showPreviewDia (index) {
-        this.chosenIndex = index
-        this.preview = true
+        let win = new BrowserWindow({width: 800, height: 600, titleBarStyle: 'hidden-inset'})
+        win.on('closed', () => {
+          win = null
+        })
+        win.loadURL(`https://touko-blog-photo.b0.upaiyun.com/${this.fileList[index].name}`)
       },
       showDeleteDia (index) {
         this.chosenIndex = index

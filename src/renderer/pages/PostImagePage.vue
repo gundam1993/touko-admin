@@ -40,17 +40,11 @@
           </v-card-row>
         </v-card>
     </v-dialog>
-    <v-dialog v-model="preview" width="">
-        <v-card>
-          <v-card-row class='preview-block'>
-            <img v-if="preview" :src="`https://touko-blog-img.b0.upaiyun.com/${fileList[chosenIndex].name}`" alt="">
-          </v-card-row>
-        </v-card>
-    </v-dialog>
   </div>
 </template>
 
 <script>
+  const {BrowserWindow} = require('electron').remote
   export default {
     name: 'PostPic',
     layout: 'admin',
@@ -59,8 +53,7 @@
     }),
     data: () => ({
       modal: false,
-      chosenIndex: 0,
-      preview: false
+      chosenIndex: 0
     }),
     computed: {
       usage () {
@@ -76,8 +69,11 @@
         return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
       },
       showPreviewDia (index) {
-        this.chosenIndex = index
-        this.preview = true
+        let win = new BrowserWindow({width: 800, height: 600, titleBarStyle: 'hidden-inset'})
+        win.on('closed', () => {
+          win = null
+        })
+        win.loadURL(`https://touko-blog-img.b0.upaiyun.com/${this.fileList[index].name}`)
       },
       showDeleteDia (index) {
         this.chosenIndex = index
@@ -129,7 +125,7 @@
   }
   .title-picture {
     position: relative;
-
+    min-height: 65px;
     img {
       width: 100%;
       vertical-align: bottom;
@@ -149,13 +145,6 @@
         position: absolute;
         color: white;
         padding: 0 1rem;
-      }
-    }
-
-    .preview-block {
-      img {
-        width: 100%;
-        vertical-align: bottom;
       }
     }
   }

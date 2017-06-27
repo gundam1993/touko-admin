@@ -23,7 +23,7 @@ const mutations = {
     state.posts = payload.posts
   },
   ADD_NEW_POST (state, payload) {
-    state.posts.push(payload)
+    state.posts.unshift(payload)
   },
   DELETE_POST (state, payload) {
     for (let i = 0; i < state.posts.length; i++) {
