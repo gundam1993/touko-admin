@@ -58,34 +58,28 @@
     name: 'Photography',
     data: () => ({
       modal: false,
-      usage: 0,
-      fileList: [],
       chosenIndex: 0,
       upload: false,
       token: '',
       policy: ''
     }),
+    computed: {
+      usage () {
+        return this.$store.getters.photoUsage
+      },
+      fileList () {
+        return this.$store.getters.photos
+      }
+    },
     components: {
       uploadDialog
     },
     created () {
-      this.getImgUsage()
-      this.getImgInfo()
+      this.$store.dispatch('getPhotos')
+      this.$store.dispatch('getPhotoUsage')
       this.getPhotoToken()
     },
     methods: {
-      getImgUsage () {
-        let res = this.$ipcRenderer.sendSync('getImgUsage', {type: 'photo'})
-        if (res.success) {
-          this.usage = res.usage
-        }
-      },
-      getImgInfo () {
-        let res = this.$ipcRenderer.sendSync('getImgInfo', {type: 'photo'})
-        if (res.success) {
-          this.fileList = res.fileList
-        }
-      },
       getPhotoToken () {
         let res = this.$ipcRenderer.sendSync('getImgToken', {type: 'photo'})
         if (res.success) {
@@ -113,11 +107,10 @@
       },
       deleteImg () {
         let image = this.fileList[this.chosenIndex].name
-        let res = this.$ipcRenderer.sendSync('deleteImg', {type: 'photo', image: image})
-        if (res.success) {
-          this.fileList.splice(this.chosenIndex, 1)
+        let res = this.$store.dispatch('deletePhoto', {index: this.chosenIndex, name: image})
+        if (res) {
+          this.$store.dispatch('getPhotoUsage')
           this.modal = false
-          this.getImgUsage()
           // this.$store.commit('noticeChange', { msg: '删除成功' })
           // this.$store.commit('noticeOn')
         } else {
