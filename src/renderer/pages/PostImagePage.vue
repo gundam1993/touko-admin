@@ -63,6 +63,10 @@
         return this.$store.getters.images
       }
     },
+    created () {
+      this.$store.dispatch('getImages')
+      this.$store.dispatch('getImageUsage')
+    },
     methods: {
       getFormatDate (sec) {
         let date = new Date(Date(sec))

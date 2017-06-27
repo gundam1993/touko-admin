@@ -19,9 +19,6 @@ const mutations = {
   },
   DELETE_IMAGE (state, payload) {
     state.images.splice(payload, 1)
-  },
-  ADD_IMAGE (state, payload) {
-    state.images.unshift(payload)
   }
 }
 
@@ -45,9 +42,6 @@ const actions = {
       return true
     }
   }
-  // addImage({ commit }, payload) {
-    // let
-  // }
 }
 
 export default {
